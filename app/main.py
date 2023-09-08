@@ -10,8 +10,11 @@ def index():
 @app.route('/multiply', methods=['POST'])
 def multiply():
     number = int(request.form['number'])
-    result = number * 2
-    return render_template('result.html', result=result)
+    if number<0:
+        return "負の値には対応していません。"
+    else:
+        result = number * 2
+        return render_template('result.html', result=result)
 
 @app.route("/test")
 def test():
