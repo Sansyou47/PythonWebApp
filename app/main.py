@@ -1,10 +1,17 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, request
+
 app = Flask(__name__)
 
-@app.route("/")
+@app.route('/')
 def index():
-    return "<h1>Hello, Flask!</h1>"
+    return render_template('index.html')
+
+@app.route('/multiply', methods=['POST'])
+def multiply():
+    number = int(request.form['number'])
+    result = number * 2
+    return render_template('result.html', result=result)
 
 @app.route("/test")
 def test():
