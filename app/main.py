@@ -1,29 +1,23 @@
-from flask import Flask
-from flask import render_template, request
+from flask import Flask, render_template
+from flaskext.mysql import MySQL
+import os
 
 app = Flask(__name__)
 
+# MySQL設定
+app.config['MYSQL_DATABASE_USER'] = os.getenv("MYSQL_USER")
+app.config['MYSQL_DATABASE_PASSWORD'] = 'test'
+app.config['MYSQL_DATABASE_DB'] = 'pytest'
+app.config['MYSQL_DATABASE_HOST'] = 'mysql'
+
+mysql = MySQL(app)
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    cur = mysql.get_db().cursor()
+    cur.execute("SELECT * FROM items")
+    data = cur.fetchall()
+    return render_template('index.html', data=data)
 
-#フォームに入力された数値を倍にする処理
-@app.route('/multiply', methods=['POST'])
-def multiply():
-    #フォームから数値を受け取る
-    number = int(request.form['number'])
-    #数値が負の数なら失敗にする
-    if number<0:
-        return render_template('result-failure.html',result=number)
-    #正の数なら倍にする処理を実行して返す
-    else:
-        result = number * 2
-        return render_template('result-success.html', result=result)
-
-#テスト用のページ
-@app.route("/test")
-def test():
-    return render_template('test.html')
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug=True)
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
