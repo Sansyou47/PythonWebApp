@@ -1,17 +1,18 @@
 version: '3'
 
 services:
-  web:
+  python:
     build: .
     ports:
-      - "8080:80"
+      - "5000:5000"
     volumes:
       - ./app:/app
     depends_on:
-      - db
+      - mysql
 
-  db:
+  mysql:
     image: mysql:latest
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -19,3 +20,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
+    hostname: mysql
+    volumes:
+      - ./db:/work
+      - ./db/:/docker-entrypoint-initdb.d/
