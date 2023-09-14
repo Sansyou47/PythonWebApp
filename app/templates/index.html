@@ -3,19 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>数字x2フォーム</title>
+    <title>Data from MySQL</title>
 </head>
 
 <body>
-    <p>
-        入力された数値を倍にして返します。<br>
-        注意：負の数には対応していません。正の整数を入力してください。
-    </p>
-    <form action="/multiply" method="post">
-        <label for="number">数値を入力：</label>
-        <input type="text" id="number" name="number"><br><br>
-        <input type="submit" value="倍にする！">
-    </form>
+    <h1>Data from MySQL</h1>
+    <ul>
+        {% for row in data %}
+        <li>{{ row }}</li>
+        {% endfor %}
+    </ul>
 </body>
 
 </html>
