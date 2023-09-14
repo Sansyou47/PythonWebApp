@@ -3,13 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>テストぺーい</title>
+    <title>Data from MySQL</title>
 </head>
 
 <body>
-    <h1>テスト</h1>
-    <p>テストテストテスト</p>
-    <a href="/">戻ろうぜ</a>
+    <h1>登録されているデータ一覧</h1>
+    <ul>
+        {% for row in data %}
+        <li>{{ row }}</li>
+        {% endfor %}
+    </ul>
 </body>
 
 </html>
