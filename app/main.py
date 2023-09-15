@@ -20,7 +20,7 @@ def index():
 # 検索フォーム
 @app.route('/search')
 def search():
-    return render_template('db-search.html')
+    return render_template('db_search.html')
 
 # 新規登録フォーム
 @app.route('/entry')
@@ -65,16 +65,16 @@ def dbinsert():
     cur.execute("INSERT INTO employee(name, category, number, gender, pass) VALUES(%s, %s, %s, %s, %s)",(name,category,number,gender,passwdhs))
     conn.commit()
     cur.close()
-    return redirect('/test')
+    return redirect('/show')
 
 # testページ
-@app.route('/test')
+@app.route('/show')
 def test():
     cur = mysql.get_db().cursor()
     # テーブルの情報をすべて返す
     cur.execute("SELECT * FROM employee")
     data = cur.fetchall()
-    return render_template('test.html', data=data)
+    return render_template('show_dbdata.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
