@@ -23,15 +23,21 @@ def search():
     return render_template('db-search.html')
 
 # SQLによるデータベースからの参照処理
-@app.route('/numbersearch')
+@app.route('/numbersearch', methods=['GET', 'POST'])
 def db_serch():
-    # フォームから値の受け取り
-    number=int(request.form.get('number'))
-    cur = mysql.get_db().cursor()
-    # SQLの実行
-    cur.execute('select name from items')
-    data=cur.fetchall()
-    return render_template('search_result.html',data=data)
+    # POSTメソッドがリクエストされた場合のみ実行
+    if request.method == 'POST':
+        # フォームから値の受け取り
+        number=int(request.form.get('number'))
+        cur = mysql.get_db().cursor()
+        # SQLの実行
+        cur.execute("select name, category from items where number = %s",(number))
+        data=cur.fetchone()
+        cur.close()
+        return render_template('search_result.html',name=data[0],category=data[1])
+    # POSTメソッドがリクエストされていないのでリダイレクトする
+    else:
+        return redirect('/')
 
 # testページ
 @app.route('/test')
