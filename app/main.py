@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flaskext.mysql import MySQL
-import os
+import os, hashlib, pymysql
 
 app = Flask(__name__)
 
@@ -22,29 +22,57 @@ def index():
 def search():
     return render_template('db-search.html')
 
+# 新規登録フォーム
+@app.route('/entry')
+def entry():
+    return render_template('entry.html')
+
 # SQLによるデータベースからの参照処理
-@app.route('/numbersearch', methods=['GET', 'POST'])
+@app.route('/numbersearch', methods=['POST'])
 def db_serch():
     # POSTメソッドがリクエストされた場合のみ実行
     if request.method == 'POST':
         # フォームから値の受け取り
-        number=int(request.form.get('number'))
-        cur = mysql.get_db().cursor()
-        # SQLの実行
-        cur.execute("select name, category from items where number = %s",(number))
-        data=cur.fetchone()
-        cur.close()
-        return render_template('search_result.html',name=data[0],category=data[1])
+        number=request.form.get('number')
+        if number == "None":
+            return render_template('index.html')
+        else:
+            cur = mysql.get_db().cursor()
+            # SQL実行
+            cur.execute("select name, category from employee where number = %s",(number))
+            data=cur.fetchone()
+            cur.close()
+            return render_template('search_result.html',name=data[0],category=data[1])
     # POSTメソッドがリクエストされていないのでリダイレクトする
     else:
         return redirect('/')
+
+# 新規登録フォームのデータをデータベースへ登録する処理
+@app.route('/dbinsert', methods=['POST'])
+def dbinsert():
+    # データの受け取り（5個）
+    name=request.form.get('name')
+    category=request.form.get('category')
+    number=int(request.form.get('number'))
+    gender=request.form.get('gender')
+    passwd=request.form.get('pass')
+    # パスワードはハッシュ化して登録する
+    passwdhs=hashlib.sha256(passwd.encode()).hexdigest()
+    # MySQLへ接続
+    conn=mysql.get_db()
+    cur=conn.cursor()
+    # SQL実行
+    cur.execute("INSERT INTO employee(name, category, number, gender, pass) VALUES(%s, %s, %s, %s, %s)",(name,category,number,gender,passwdhs))
+    conn.commit()
+    cur.close()
+    return redirect('/test')
 
 # testページ
 @app.route('/test')
 def test():
     cur = mysql.get_db().cursor()
     # テーブルの情報をすべて返す
-    cur.execute("SELECT * FROM items")
+    cur.execute("SELECT * FROM employee")
     data = cur.fetchall()
     return render_template('test.html', data=data)
 

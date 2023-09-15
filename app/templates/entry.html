@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>従業員登録</title>
+    <link rel="stylesheet" href="../static/css/entry.css">
+</head>
+
+<body>
+    <div class="entry-form">
+        <div class="entry-form-title">新規登録フォーム</div>
+        <div class="entry-form-body">
+            <form action="/dbinsert" method="post">
+                氏名<br>
+                <input type="text" id="name" name="name"><br>
+                配属部門<br>
+                <input type="text" id="category" name="category"><br>
+                従業員番号<br>
+                <input type="text" id="number" name="number"><br>
+                性別<br>
+                <input type="text" id="gender" name="gender"><br>
+                ログインパスワード<br>
+                <input type="text" id="pass" name="pass"><br>
+                <input type="submit" value="登録">
+            </form>
+        </div>
+    </div>
+    <a href="/">戻る</a>
+</body>
+
+</html>
