@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, redirect
 from flaskext.mysql import MySQL
+from function import search
 import os, hashlib, pymysql
 
 app = Flask(__name__)
+
+app.register_blueprint(search.app)
 
 # MySQL設定(セキュリティを考慮して環境変数から読み出しを行っています。)
 app.config['MYSQL_DATABASE_USER'] = os.getenv('MYSQL_USER')
@@ -27,7 +30,6 @@ def search():
 def entry():
     return render_template('entry.html')
 
-# SQLによるデータベースからの参照処理
 @app.route('/numbersearch', methods=['POST'])
 def db_serch():
     # POSTメソッドがリクエストされた場合のみ実行
