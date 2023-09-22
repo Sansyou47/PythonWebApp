@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 app.register_blueprint(search.app)
 
-# MySQL設定(セキュリティを考慮して環境変数から読み出しを行っています。)
+# MySQL設定(環境変数から読み取り)
 app.config['MYSQL_DATABASE_USER'] = os.getenv('MYSQL_USER')
 app.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
 app.config['MYSQL_DATABASE_DB'] = os.getenv('MYSQL_DATABASE')
@@ -55,19 +55,22 @@ def dbinsert():
     # データの受け取り（5個）
     name=request.form.get('name')
     category=request.form.get('category')
-    number=int(request.form.get('number'))
+    number=request.form.get('number')
     gender=request.form.get('gender')
     passwd=request.form.get('pass')
-    # パスワードはハッシュ化して登録する
-    passwdhs=hashlib.sha256(passwd.encode()).hexdigest()
-    # MySQLへ接続
-    conn=mysql.get_db()
-    cur=conn.cursor()
-    # SQL実行
-    cur.execute("INSERT INTO employee(name, category, number, gender, pass) VALUES(%s, %s, %s, %s, %s)",(name,category,number,gender,passwdhs))
-    conn.commit()
-    cur.close()
-    return redirect('/show')
+    if name == 'None':
+        return redirect('/index')
+    else:
+        # パスワードはハッシュ化して登録する
+        passwdhs=hashlib.sha256(passwd.encode()).hexdigest()
+        # MySQLへ接続
+        conn=mysql.get_db()
+        cur=conn.cursor()
+        # SQL実行
+        cur.execute("INSERT INTO employee(name, category, number, gender, pass) VALUES(%s, %s, %s, %s, %s)",(name,category,number,gender,passwdhs))
+        conn.commit()
+        cur.close()
+        return redirect('/show')
 
 # testページ
 @app.route('/show')
