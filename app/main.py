@@ -55,22 +55,23 @@ def dbinsert():
     # データの受け取り（5個）
     name=request.form.get('name')
     category=request.form.get('category')
-    number=request.form.get('number')
+    auth=int(request.form.get('auth'))
     gender=request.form.get('gender')
+    start=int(request.form.get('start'))
+    finish=int(request.form.get('finish'))
     passwd=request.form.get('pass')
-    if name == 'None':
-        return redirect('/index')
-    else:
-        # パスワードはハッシュ化して登録する
-        passwdhs=hashlib.sha256(passwd.encode()).hexdigest()
-        # MySQLへ接続
-        conn=mysql.get_db()
-        cur=conn.cursor()
-        # SQL実行
-        cur.execute("INSERT INTO employee(name, category, number, gender, pass) VALUES(%s, %s, %s, %s, %s)",(name,category,number,gender,passwdhs))
-        conn.commit()
-        cur.close()
-        return redirect('/show')
+
+    # パスワードはハッシュ化して登録する
+    passwdhs=hashlib.sha256(passwd.encode()).hexdigest()
+
+    # MySQLへ接続
+    conn=mysql.get_db()
+    cur=conn.cursor()
+    # SQL実行
+    cur.execute("INSERT INTO employee(name, category, auth, gender, start, finish, pass) VALUES(%s, %s, %s, %s, %s, %s, %s)",(name,category,auth,gender,start,finish,passwdhs))
+    conn.commit()
+    cur.close()
+    return redirect('/show')
 
 # testページ
 @app.route('/show')
