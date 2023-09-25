@@ -3,18 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>数字x2フォーム</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>default page</title>
 </head>
 
 <body>
-    <p>
-        入力された数値を倍にして返します。<br>
-        注意：負の数には対応していません。正の整数を入力してください。
-    </p>
-    <form action="/multiply" method="post">
-        <label for="number">数値を入力：</label>
-        <input type="text" id="number" name="number"><br><br>
-        <input type="submit" value="倍にする！">
+    <div class="title">各画面へ移動するページ</div>
+    <form action="/move" method="post">
+        <div class="button">
+            <input type="button" name="1" value="新規登録">
+            <input type="button" name="2" value="データ照会">
+            <input type="button" name="3" value="検索">
+        </div>
     </form>
 </body>
 

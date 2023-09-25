@@ -1,17 +1,22 @@
 version: '3'
 
 services:
-  web:
+  python:
     build: .
     ports:
-      - "8080:80"
+      - "8080:5000"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./app:/app
     depends_on:
-      - db
+      - mysql
 
-  db:
-    image: mysql:latest
+  mysql:
+    build: db/
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -19,3 +24,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
+    hostname: mysql
+    volumes:
+      - ./db/sql:/work
+      - ./db/sql/:/docker-entrypoint-initdb.d/

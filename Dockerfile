@@ -1,7 +1,7 @@
-FROM python:alpine
+FROM python:3.8
 WORKDIR /app
-RUN pip install Flask && \
-    pip install Flask-SQLAlchemy
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 #Pythonファイルの実行
 CMD ["python", "main.py"]
