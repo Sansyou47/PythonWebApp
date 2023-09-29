@@ -7,6 +7,27 @@
     <title>default page</title>
 </head>
 
+
+<header>
+    <div class="hamburger-menu">
+        <input type="checkbox" id="menu-btn-check">
+        <label for="menu-btn-check" class="menu-btn"><span></span></label>
+        <div class="menu-content">
+            <ul>
+                <li>
+                    <a href="show">データベース照会</a>
+                </li>
+                <li>
+                    <a href="dbdelete">データ削除</a>
+                </li>
+                <li>
+                    <a href="entry">データ登録</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
 <body>
     <div class="title">各画面へ移動するページ</div>
     <form action="/move" method="post">
