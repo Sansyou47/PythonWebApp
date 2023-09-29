@@ -5,8 +5,6 @@ import os, hashlib, pymysql
 
 app = Flask(__name__)
 
-app.register_blueprint(search.app)
-
 # MySQL設定(環境変数から読み取り)
 app.config['MYSQL_DATABASE_USER'] = os.getenv('MYSQL_USER')
 app.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
@@ -20,6 +18,14 @@ mysql = MySQL(app)
 def index():
     return render_template('index.html')
 
+@app.route('/dbdelete')
+def dbdelte():
+    cur = mysql.get_db().cursor()
+    # テーブルの情報をすべて返す
+    cur.execute("SELECT * FROM employee")
+    data = cur.fetchall()
+    return render_template('db_delete.html', data=data)
+
 # 検索フォーム
 @app.route('/search')
 def search():
@@ -29,6 +35,17 @@ def search():
 @app.route('/entry')
 def entry():
     return render_template('entry.html')
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    number=int(request.form.get('radio'))
+    # MySQLへ接続
+    conn=mysql.get_db()
+    cur=conn.cursor()
+    cur.execute("delete from employee where number = %s",(number))
+    conn.commit()
+    cur.close()
+    return redirect('/show')
 
 @app.route('/numbersearch', methods=['POST'])
 def db_serch():
