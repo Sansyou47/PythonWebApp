@@ -14,7 +14,7 @@ services:
       - ./app:/app
     depends_on:
       - mysql
-    restart: on-failure
+    # restart: on-failure
 
   mysql:
     build: db/
@@ -29,4 +29,4 @@ services:
     volumes:
       - ./db/sql:/work
       - ./db/sql/:/docker-entrypoint-initdb.d/
-    restart: on-failure
+    # restart: on-failure
