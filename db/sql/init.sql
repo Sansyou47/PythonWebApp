@@ -27,5 +27,7 @@ insert into employee(name, category, auth, gender, start, finish, pass)
 
 drop table if exists holiday;
 create table holiday (
-	
-)
+	number	int auto_increment primary key,
+	date	date not null,
+	type	varchar(50) not null
+);
