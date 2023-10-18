@@ -18,10 +18,22 @@ mysql = MySQL(app)
 def index():
     return render_template('index.html')
 
+# 検索フォーム
+@app.route('/search')
+def search():
+    return render_template('db_search.html')
+
+# 新規登録フォーム
+@app.route('/entry')
+def entry():
+    return render_template('entry.html')
+
+# 休暇申請フォーム
 @app.route('/submit')
 def holiday():
     return render_template('/form/holiday_submit.html')
 
+# ログインフォーム
 @app.route('/login')
 def login():
     return render_template('/form/login.html')
@@ -68,16 +80,7 @@ def dbdelte():
     data = cur.fetchall()
     return render_template('db_delete.html', data=data)
 
-# 検索フォーム
-@app.route('/search')
-def search():
-    return render_template('db_search.html')
-
-# 新規登録フォーム
-@app.route('/entry')
-def entry():
-    return render_template('entry.html')
-
+# データの削除処理
 @app.route('/delete', methods=['POST'])
 def delete():
     number=int(request.form.get('radio'))
@@ -89,6 +92,7 @@ def delete():
     cur.close()
     return redirect('/show')
 
+# 従業員番号から検索する処理
 @app.route('/numbersearch', methods=['POST'])
 def db_serch():
     # POSTメソッドがリクエストされた場合のみ実行
@@ -119,10 +123,8 @@ def dbinsert():
     start=int(request.form.get('start'))
     finish=int(request.form.get('finish'))
     passwd=request.form.get('pass')
-
     # パスワードはハッシュ化して登録する
     passwdhs=hashlib.sha256(passwd.encode()).hexdigest()
-
     # MySQLへ接続
     conn=mysql.get_db()
     cur=conn.cursor()
