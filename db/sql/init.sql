@@ -31,5 +31,6 @@ create table holiday (
 	number	int auto_increment primary key,
 	id		int,
 	date	date not null,
-	type	varchar(50) not null
+	type	varchar(50) not null,
+	regtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
