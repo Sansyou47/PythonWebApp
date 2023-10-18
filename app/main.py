@@ -18,6 +18,20 @@ mysql = MySQL(app)
 def index():
     return render_template('index.html')
 
+@app.route('/form/submit')
+def holiday():
+    return render_template('/form/holiday_submit.html')
+
+# 希望休の登録処理
+@app.route('/submit', methods=['POST'])
+def submit():
+    date = request.form['date']
+    holiday_type = request.form['holiday_type']
+    
+    # ここでデータベースに登録する処理を追加する
+    
+    return "希望休が登録されました。"
+
 @app.route('/dbdelete')
 def dbdelte():
     cur = mysql.get_db().cursor()
