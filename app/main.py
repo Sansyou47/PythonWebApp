@@ -47,17 +47,18 @@ def do_login():
 # 希望休の登録処理
 @app.route('/action/submit', methods=['POST'])
 def submit():
+    id = request.form.get('id')
     date = request.form['date']
     holiday_type = request.form['holiday_type']
     # データベースに接続
     cursor = mysql.get_db().cursor()
     # データを挿入
-    cursor.execute("INSERT INTO holiday (date, type) VALUES (%s, %s)", (date, holiday_type))
+    cursor.execute("INSERT INTO holiday (id, date, type) VALUES (%s, %s, %s)", (id, date, holiday_type))
     # 変更を保存
     mysql.get_db().commit()
     # 接続を閉じる
     cursor.close()
-    return "希望休が登録されました。"
+    return render_template('/result/holiday_result.html')
 
 @app.route('/dbdelete')
 def dbdelte():

@@ -25,9 +25,11 @@ insert into employee(name, category, auth, gender, start, finish, pass)
 insert into employee(name, category, auth, gender, start, finish, pass)
 	values('岸辺露伴', '書籍', 2, 'male', 8, 15, 'None');
 
+# holidayテーブルの作成
 drop table if exists holiday;
 create table holiday (
 	number	int auto_increment primary key,
+	id		int,
 	date	date not null,
 	type	varchar(50) not null
 );
