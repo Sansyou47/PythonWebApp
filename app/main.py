@@ -134,7 +134,7 @@ def dbinsert():
     cur.close()
     return redirect('/show')
 
-# testページ
+# データベース内のデータを全取得
 @app.route('/show')
 def test():
     cur = mysql.get_db().cursor()
