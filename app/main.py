@@ -38,6 +38,11 @@ def holiday():
 def login():
     return render_template('/form/login.html')
 
+# 休暇申請状況確認フォーム
+@app.route('/regstatus')
+def regstatus():
+    return render_template("/form/regstatus.html")
+
 # ログイン処理
 @app.route('/action/login', methods=['POST'])
 def do_login():
@@ -141,7 +146,7 @@ def test():
     # テーブルの情報をすべて返す
     cur.execute("SELECT * FROM employee")
     data = cur.fetchall()
-    return render_template('show_dbdata.html', data=data)
+    return render_template('/result/show_dbdata.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
