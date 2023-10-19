@@ -21,12 +21,12 @@ def index():
 # 検索フォーム
 @app.route('/search')
 def search():
-    return render_template('db_search.html')
+    return render_template('/form/db_search.html')
 
 # 新規登録フォーム
 @app.route('/entry')
 def entry():
-    return render_template('entry.html')
+    return render_template('/form/entry.html')
 
 # 休暇申請フォーム
 @app.route('/submit')
@@ -78,7 +78,7 @@ def dbdelte():
     # テーブルの情報をすべて返す
     cur.execute("SELECT * FROM employee")
     data = cur.fetchall()
-    return render_template('db_delete.html', data=data)
+    return render_template('/form/db_delete.html', data=data)
 
 # データの削除処理
 @app.route('/delete', methods=['POST'])
@@ -107,7 +107,7 @@ def db_serch():
             cur.execute("select name, category from employee where number = %s",(number))
             data=cur.fetchone()
             cur.close()
-            return render_template('search_result.html',name=data[0],category=data[1])
+            return render_template('/result/search_result.html', name=data[0],category=data[1])
     # POSTメソッドがリクエストされていないのでリダイレクトする
     else:
         return redirect('/')
@@ -134,7 +134,7 @@ def dbinsert():
     cur.close()
     return redirect('/show')
 
-# データベース内のデータを全取得
+# employeeテーブルのデータを全取得
 @app.route('/show')
 def test():
     cur = mysql.get_db().cursor()
