@@ -32,5 +32,6 @@ create table holiday (
 	id		int,
 	date	date not null,
 	type	varchar(50) not null,
+	status	int not null,
 	regtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
