@@ -43,6 +43,16 @@ def login():
 def regstatus():
     return render_template("/form/regstatus.html")
 
+# 休暇申請状況確認処理
+@app.route('/action/regstatus', methods=['POST'])
+def do_regstatus():
+    id=int(request.form.get('number'))
+    cursor=mysql.get_db().cursor()
+    cursor.execute("SELECT * FROM holiday WHERE number=%s",(id))
+    data=cursor.fetchall()
+    cursor.close()
+    return render_template('regstatus_result.html', data)
+
 # ログイン処理
 @app.route('/action/login', methods=['POST'])
 def do_login():
