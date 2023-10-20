@@ -48,10 +48,10 @@ def regstatus():
 def do_regstatus():
     id=int(request.form.get('number'))
     cursor=mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM holiday WHERE number=%s",(id))
+    cursor.execute("SELECT id, date, type , status, regtime FROM holiday WHERE id=%s",(id))
     data=cursor.fetchall()
     cursor.close()
-    return render_template('regstatus_result.html', data)
+    return render_template('/result/res_regstatus.html', data=data)
 
 # ログイン処理
 @app.route('/action/login', methods=['POST'])
