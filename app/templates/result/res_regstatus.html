@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>検索結果</title>
+    <link rel="stylesheet" href="../static/css/search.css">
+</head>
+
+<body>
+    <table border="1">
+        <tr>
+            <th>従業員番号</th>
+            <th>日時</th>
+            <th>休暇の種類</th>
+            <th>申請状況</th>
+            <th>申請日時</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
