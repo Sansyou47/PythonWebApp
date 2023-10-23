@@ -10,11 +10,12 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${default_timezone}
     volumes:
       - ./app:/app
     depends_on:
       - mysql
-    # restart: on-failure
+    restart: on-failure
 
   mysql:
     build: db/
@@ -23,10 +24,11 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${default_timezone}
     ports:
       - "3306:3306"
     hostname: mysql
     volumes:
       - ./db/sql:/work
       - ./db/sql/:/docker-entrypoint-initdb.d/
-    # restart: on-failure
+    restart: on-failure
