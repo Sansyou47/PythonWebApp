@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>検索結果</title>
+</head>
+
+<body>
+    <table border="1">
+        <tr>
+            <th>従業員番号</th>
+            <th>休暇日</th>
+            <th>休暇の種類</th>
+            <th>申請状況</th>
+            <th>申請日時</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            {% if row[3] == 0 %}
+            <td>受理</td>
+            {% elif row[3] == 1 %}
+            <td>却下</td>
+            {% else %}
+            <td>申請中</td>
+            {% endif %}
+            <td>{{ row[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
